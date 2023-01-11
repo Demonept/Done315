@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:c="">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+  <style>
+    td{
+      border-bottom: 1px solid black;
+      height: 15px;
+    }
+    th{
+      width: 50px;
+      border-right: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>SecondName</th>
+    <th>Email</th>
+    <th>Password</th>
+
+  </tr>
+  <th:block th:each="user : ${users}">
+
+    <th:url var="editButton" value="/editUser">
+      <th:param name="userId" value="${user.id}"/>
+    </th:url>
+
+    <tr>
+      <td th:text="${user.getId()}"></td>
+      <td th:text="${user.getUsername}"></td>
+      <td th:text="${user.getLastName}"></td>
+      <td th:text="${user.getEmail}"></td>
+      <td th:text="${user.getPassword}">
+      <td>
+
+        <a th:href = "@{/user/{id}(id=${user.getId()})}">Update</a>
+
+        <a th:href = "@{/delete/{id}(id=${user.getId()})}">Delete</a>
+
+    </tr>
+  </th:block>
+
+
+</table>
+
+<input type="button" value="Create new User" onclick="window.location.href = 'addNewUser'"/>
+
+</body>
+</html>

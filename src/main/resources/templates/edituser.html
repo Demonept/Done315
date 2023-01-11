@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>adduser</title>
+  <style>
+
+  </style>
+</head>
+<body>
+<h3>Update user</h3>
+<form th:action="@{/{id}(id=${user.getId()})}" th:object="${user}" th:method ="PATCH">
+  <p><input type="text" placeholder="Name" th:field="*{firstName}"/></p>
+  <p><input type="text" placeholder="Second Name" th:field="*{lastName}"/></p>
+  <p><input type="text" placeholder="Email" th:field="*{email}"/></p>
+  <input type="submit" value="Сохранить"/>
+</form>
+</body>
+</html>
