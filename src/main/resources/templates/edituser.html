@@ -8,9 +8,9 @@
   </style>
 </head>
 <body>
-<h3>Update user</h3>
-<form th:action="@{/{id}(id=${user.getId()})}" th:object="${user}" th:method ="PATCH">
-  <p><input type="text" placeholder="Name" th:field="*{firstName}"/></p>
+<h3>Update user info</h3>
+<form th:action="@{/admin/user/{id}(id=${user.getId()})}" th:object="${user}" th:method ="PATCH">
+  <p><input type="text" placeholder="Name" th:field="*{username}"/></p>
   <p><input type="text" placeholder="Second Name" th:field="*{lastName}"/></p>
   <p><input type="text" placeholder="Email" th:field="*{email}"/></p>
   <input type="submit" value="Сохранить"/>

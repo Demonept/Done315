@@ -1,17 +1,11 @@
 package ru.kata.spring.boot_security.demo.model;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -20,7 +14,7 @@ public class User implements UserDetails {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
 
-   @Column(name = "name")
+   @Column(name = "username")
    private String username;
 
    @Column(name = "last_name")
@@ -36,13 +30,9 @@ public class User implements UserDetails {
    @JoinTable(
            name = "user_role"
            , joinColumns = @JoinColumn(name = "user_id")
-           , inverseJoinColumns = @JoinColumn(name = "role_name")
+           , inverseJoinColumns = @JoinColumn(name = "role_id")
    )
-   private List<Role> role;
-
-   public void setPassword(String password) {
-      this.password = password;
-   }
+   private List<Role> roles;
 
    public User() {}
    
@@ -53,16 +43,27 @@ public class User implements UserDetails {
       this.password = password;
    }
 
-   public List<Role> getRole() {
-      return role;
+   public User(String firstName, String lastName, String email, String password, List<Role> roles){
+      this.username = firstName;
+      this.lastName = lastName;
+      this.email = email;
+      this.password = password;
+      this.roles = roles;
    }
 
-   public void setRole(Role role) {
-      if(this.role == null){
-         this.role = new ArrayList<>();
-         this.role.add(role);
-      }
+   public List<Role> getRoles() {
+      return roles;
    }
+   public ArrayList getStringRoles(){
+      ArrayList a = new ArrayList<>();
+         for(Role role: roles){
+             a.add(role.getName());
+      }return a;
+   }
+
+   public void setRoles(List<Role> roles) {
+      this.roles = roles;
+      }
 
    public Long getId() {
       return id;
@@ -76,6 +77,9 @@ public class User implements UserDetails {
       return password;
    }
 
+   public void setPassword(String password) {
+      this.password = password;
+   }
    @Override
    public String getUsername() {
       return username;
@@ -103,11 +107,7 @@ public class User implements UserDetails {
 
    @Override
    public Collection<? extends GrantedAuthority> getAuthorities() {
-      List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
-
-      list.add(new SimpleGrantedAuthority("ROLE_" + role));
-
-      return list;
+      return getRoles();
    }
 
 

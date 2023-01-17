@@ -7,30 +7,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.service.UserService;
+import ru.kata.spring.boot_security.demo.repository.UserRepository;
+import ru.kata.spring.boot_security.demo.service.SecurityUserService;
 
-import java.util.List;
+import java.security.Principal;
 
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
 
-    private UserService userService;
+    private UserRepository userRepository;
+    private SecurityUserService userService;
     @Autowired
-    public UserController(UserService userService){
+    public UserController(SecurityUserService userService){
         this.userService = userService;
     }
-
-    @GetMapping("/user/{id}")
-    public String getUserPage(@PathVariable Long id, ModelMap model){
-        User user = userService.getUser(id);
-        model.addAttribute("user", user);
-        return "edituser";
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
-    @PatchMapping("/{id}")
-    public String updateUser(@ModelAttribute("user") User user){
-        userService.update(user);
-        return "redirect:/";
+
+    @GetMapping("/info")
+    public String getUserPage(Principal principal, ModelMap model){
+        User user = userRepository.findByUsername(principal.getName());
+        model.addAttribute("user", user);
+        return "userinfo";
     }
 }

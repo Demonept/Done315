@@ -22,7 +22,7 @@
     <th>Name</th>
     <th>SecondName</th>
     <th>Email</th>
-    <th>Password</th>
+    <th>Roles</th>
 
   </tr>
   <th:block th:each="user : ${users}">
@@ -32,16 +32,14 @@
     </th:url>
 
     <tr>
-      <td th:text="${user.getId()}"></td>
+      <td th:text="${user.getId}"></td>
       <td th:text="${user.getUsername}"></td>
       <td th:text="${user.getLastName}"></td>
       <td th:text="${user.getEmail}"></td>
-      <td th:text="${user.getPassword}">
+      <td th:text="${user.getStringRoles}">
       <td>
-
-        <a th:href = "@{/user/{id}(id=${user.getId()})}">Update</a>
-
-        <a th:href = "@{/delete/{id}(id=${user.getId()})}">Delete</a>
+      <a th:href = "@{/admin/user/{id}(id=${user.getId()})}">Update</a>
+      <a th:href = "@{/admin/delete/{id}(id=${user.getId()})}">Delete</a>
 
     </tr>
   </th:block>
@@ -49,7 +47,13 @@
 
 </table>
 
-<input type="button" value="Create new User" onclick="window.location.href = 'addNewUser'"/>
+
+<form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+  <input hidden type="submit" value="Sign Out"/>
+</form>
+
+
+<input type="button" value="Create new User" onclick="window.location.href = 'adduser'"/>
 
 </body>
 </html>

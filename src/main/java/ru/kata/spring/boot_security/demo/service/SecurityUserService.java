@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.kata.spring.boot_security.demo.model.Role;
@@ -48,6 +47,7 @@ public class SecurityUserService implements UserDetailsService {
         return userFromDb.orElse(new User());
     }
 
+
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -58,10 +58,8 @@ public class SecurityUserService implements UserDetailsService {
         if (userFromDB != null) {
             return false;
         }
-
-        user.setRole(new Role("ROLE_USER"));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
         return true;
     }
 
@@ -73,8 +71,10 @@ public class SecurityUserService implements UserDetailsService {
         return false;
     }
 
-    public List<User> usergtList(Long idMin) {
-        return entityManager.createQuery("SELECT u FROM User u WHERE u.id > :paramId", User.class)
-                .setParameter("paramId", idMin).getResultList();
+    public boolean updateUser(User user){
+        if(userRepository.saveAndFlush(user).isEnabled()){
+            return true;
+        }
+       return false;
     }
 }
