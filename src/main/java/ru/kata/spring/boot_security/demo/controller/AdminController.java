@@ -2,6 +2,7 @@ package ru.kata.spring.boot_security.demo.controller;
 
 
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.ui.Model;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
@@ -9,9 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.service.SecurityUserService;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Controller
@@ -19,10 +24,13 @@ import java.util.List;
 public class AdminController {
 
     private SecurityUserService userService;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public AdminController(SecurityUserService userService) {
+    public AdminController(SecurityUserService userService,
+                           RoleRepository roleRepository) {
         this.userService = userService;
+        this.roleRepository = roleRepository;
     }
 
     @GetMapping("/")
@@ -34,8 +42,8 @@ public class AdminController {
 
     @GetMapping("/adduser")
     public String getAddUserPage(ModelMap model) {
-        User user = new User();
-        model.addAttribute("user", user);
+        model.addAttribute("user",new User());
+        model.addAttribute("roles", userService.getAllRoles());
         return "adduser";
     }
 
@@ -45,18 +53,23 @@ public class AdminController {
         return "redirect:/admin/";
     }
 
-
-    @GetMapping("/user/{id}")
-    public String getUserPage(@PathVariable Long id, ModelMap model) {
+    @GetMapping("/admin/user/{id}")
+    public String updateUser(@PathVariable Long id) {
         User user = userService.findUserById(id);
+        userService.updateUser(user);
+        return "redirect:/admin/";
+    }
+    @GetMapping("/user/{id}")
+    public String getUserPage(@PathVariable Long id, ModelMap model){
+        User user = userService.getUser(id);
+        model.addAttribute("roles", userService.getAllRoles());
         model.addAttribute("user", user);
         return "edituser";
     }
-
-    @PatchMapping("/admin/user/{id}")
+    @PatchMapping("{id}")
     public String updateUser(@ModelAttribute("user") User user) {
         userService.updateUser(user);
-        return "redirect:/admin/";
+        return "redirect:/admin";
     }
 
     @GetMapping("/delete/{id}")

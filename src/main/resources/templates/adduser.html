@@ -10,13 +10,22 @@
 <body>
 <h3>Create user</h3>
 <form th:action="@{save}" th:object="${user}" th:method ="POST">
-    <p><input type="text" placeholder="Name" th:field="*{username}"/></p>
-    <p><input type="text" placeholder="Second Name" th:field="*{lastName}"/></p>
-    <p><input type="text" placeholder="Email" th:field="*{email}"/></p>
-    <p><input type="text" placeholder="Password" th:field="*{password}"/></p>
-<!--    <p><input type="text" placeholder="Role" th:field="*{role}"/></p>-->
-    <input type="submit" value="Сохранить"/>
+    <p><input type="text" placeholder="Name" th:field="*{username}" required/></p>
+    <p><input type="text" placeholder="Second Name" th:field="*{lastName}" required/></p>
+    <p><input type="text" placeholder="Email" th:field="*{email}" required/></p>
+    <p><input type="text" placeholder="Password" th:field="*{password}" required/></p>
+    <p>Роли:&nbsp
+        <th:block th:each="role: ${roles}" required>
+            <input type="checkbox"
+                   th:text="${role.name}"
+                   th:value="${role.id}"
+                   th:field="*{roles}"
+            />
+        </th:block>
+    </p>
+        <input type="submit" value="Сохранить"/>
 </form>
-
+<br>
+<input type="button" th:href="@{/logout}" value="Выйти">
 </body>
 </html>

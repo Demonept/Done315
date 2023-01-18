@@ -52,6 +52,14 @@ public class SecurityUserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
+    public List<Role> getAllRoles(){
+        return roleRepository.findAll();
+    }
+
+    public Role getRoleByName(String name){
+       return roleRepository.getRoleByName(name);
+    }
+
     public boolean saveUser(User user) {
         User userFromDB = userRepository.findByUsername(user.getUsername());
 
@@ -71,10 +79,11 @@ public class SecurityUserService implements UserDetailsService {
         return false;
     }
 
-    public boolean updateUser(User user){
-        if(userRepository.saveAndFlush(user).isEnabled()){
-            return true;
-        }
-       return false;
+    public void updateUser(User user) {
+        saveUser(user);
+    }
+
+    public User getUser(long id) {
+        return userRepository.getById(id);
     }
 }
