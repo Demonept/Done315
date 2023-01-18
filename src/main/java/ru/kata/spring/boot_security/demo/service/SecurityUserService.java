@@ -80,7 +80,8 @@ public class SecurityUserService implements UserDetailsService {
     }
 
     public void updateUser(User user) {
-        saveUser(user);
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        userRepository.saveAndFlush(user);
     }
 
     public User getUser(long id) {
