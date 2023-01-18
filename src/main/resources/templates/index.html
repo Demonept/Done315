@@ -5,7 +5,10 @@
 </head>
 <body>
 <h1>Welcome to Index PAGE!</h1>
-<input type="button" th:href="@{/logout}" value="Выйти">
+<br>
+<form name="logoutForm" th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
 
 
 </body>

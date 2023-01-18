@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"><head>
   <meta charset="UTF-8">
   <title>adduser</title>
   <style>
@@ -9,10 +9,13 @@
 </head>
 <body>
 <h3>Update user info</h3>
-<form th:action="@{/admin/user/{id}(id=${user.getId()})}" th:object="${user}" th:method ="POST">
+<form th:action="@{/admin/update/{id}(id=${user.getId()})}" th:object="${user}" th:method ="PATCH">
   <p><input type="text" placeholder="Name" th:field="*{username}"/></p>
   <p><input type="text" placeholder="Second Name" th:field="*{lastName}"/></p>
   <p><input type="text" placeholder="Email" th:field="*{email}"/></p>
+  <p><input type="text" placeholder="password" th:field="*{password}"/></p>
+
+
   <label>Roles:
     <input type="checkbox" name="roles"
            th:each="role : ${roles}"
@@ -24,7 +27,9 @@
   <input type="submit" value="Сохранить"/>
 </form>
 <br>
-<input type="button" th:href="@{/logout}" value="Выйти">
+<form name="logoutForm" th:action="@{/logout}" method="post">
+  <input type="submit" value="Sign Out"/>
+</form>
 
 </body>
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -16,6 +17,9 @@ Hello,<h3 th:text="${user.getUsername}"></h3>
 </div>
 <h3 th:text="${user.getEmail}"></h3>
 <h3 th:text="${user.getLastName}"></h3>
-<input type="button" th:href="@{/logout}" value="Выйти">
+<br>
+<form name="logoutForm" th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
 </body>
 </html>

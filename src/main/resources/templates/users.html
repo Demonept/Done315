@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:c="">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Users</title>
@@ -38,7 +39,7 @@
       <td th:text="${user.getEmail}"></td>
       <td th:text="${user.getStringRoles}">
       <td>
-      <a th:href = "@{/admin/user/{id}(id=${user.getId()})}">Update</a>
+      <a type="button" th:href = "@{/admin/user/{id}(id=${user.getId()})}">Update</a>
       <a th:href = "@{/admin/delete/{id}(id=${user.getId()})}">Delete</a>
 
     </tr>
@@ -47,14 +48,12 @@
 
 </table>
 
-
-<form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
-  <input hidden type="submit" value="Sign Out"/>
-</form>
-
-
 <input type="button" value="Create new User" onclick="window.location.href = 'adduser'"/>
-<input type="button" th:href="@{/logout}" value="Выйти">
+
+<br>
+<form name="logoutForm" th:action="@{/logout}" method="post">
+  <input type="submit" value="Sign Out"/>
+</form>
 
 </body>
 </html>

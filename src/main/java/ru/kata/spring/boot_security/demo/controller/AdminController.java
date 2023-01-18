@@ -2,6 +2,7 @@ package ru.kata.spring.boot_security.demo.controller;
 
 
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
@@ -22,6 +23,9 @@ import java.util.Set;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+
+    @Autowired
+    PasswordEncoder bCryptPasswordEncoder;
 
     private SecurityUserService userService;
     private final RoleRepository roleRepository;
@@ -53,23 +57,19 @@ public class AdminController {
         return "redirect:/admin/";
     }
 
-    @GetMapping("/admin/user/{id}")
-    public String updateUser(@PathVariable Long id) {
-        User user = userService.findUserById(id);
+    @PatchMapping("/update/{id}")
+    public String updateUser(@ModelAttribute("user") User user) {
+//        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.updateUser(user);
         return "redirect:/admin/";
     }
+
     @GetMapping("/user/{id}")
     public String getUserPage(@PathVariable Long id, ModelMap model){
         User user = userService.getUser(id);
         model.addAttribute("roles", userService.getAllRoles());
         model.addAttribute("user", user);
         return "edituser";
-    }
-    @PatchMapping("{id}")
-    public String updateUser(@ModelAttribute("user") User user) {
-        userService.updateUser(user);
-        return "redirect:/admin";
     }
 
     @GetMapping("/delete/{id}")
