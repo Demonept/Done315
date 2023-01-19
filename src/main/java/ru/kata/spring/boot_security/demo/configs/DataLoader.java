@@ -9,8 +9,6 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
-
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
