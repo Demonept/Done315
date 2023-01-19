@@ -3,6 +3,7 @@ package ru.kata.spring.boot_security.demo.configs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -11,7 +12,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import ru.kata.spring.boot_security.demo.service.SecurityUserService;
@@ -24,14 +24,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final SuccessUserHandler successUserHandler;
     private SecurityUserService securityService;
 
-    @Autowired
-    public void setSecurityService(SecurityUserService securityService) {
-        this.securityService = securityService;
-    }
-
-    @Autowired
-    public WebSecurityConfig(SuccessUserHandler successUserHandler) {
+    public WebSecurityConfig(SuccessUserHandler successUserHandler,@Lazy SecurityUserService securityService) {
         this.successUserHandler = successUserHandler;
+        this.securityService = securityService;
     }
 
     @Override
@@ -49,6 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .permitAll();
     }
+
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){

@@ -32,7 +32,7 @@ public class User implements UserDetails {
            , joinColumns = @JoinColumn(name = "user_id")
            , inverseJoinColumns = @JoinColumn(name = "role_id")
    )
-   private List<Role> roles;
+   private Set<Role> roles;
 
    public User() {}
    
@@ -43,7 +43,7 @@ public class User implements UserDetails {
       this.password = password;
    }
 
-   public User(String firstName, String lastName, String email, String password, List<Role> roles){
+   public User(String firstName, String lastName, String email, String password, Set<Role> roles){
       this.username = firstName;
       this.lastName = lastName;
       this.email = email;
@@ -51,7 +51,7 @@ public class User implements UserDetails {
       this.roles = roles;
    }
 
-   public List<Role> getRoles() {
+   public Set<Role> getRoles() {
       return roles;
    }
    public ArrayList getStringRoles(){
@@ -61,7 +61,7 @@ public class User implements UserDetails {
       }return a;
    }
 
-   public void setRoles(List<Role> roles) {
+   public void setRoles(Set<Role> roles) {
       this.roles = roles;
       }
 
@@ -131,20 +131,16 @@ public class User implements UserDetails {
       return true;
    }
 
-
    @Override
    public boolean equals(Object o) {
       if (this == o) return true;
       if (o == null || getClass() != o.getClass()) return false;
       User user = (User) o;
-      return id.equals(user.id) && username.equals(user.username) && lastName.equals(user.lastName) && email.equals(user.email);
+      return id.equals(user.id);
    }
 
    @Override
    public int hashCode() {
-      return Objects.hash(id, username, lastName, email);
+      return Objects.hash(id);
    }
-
-
-
 }

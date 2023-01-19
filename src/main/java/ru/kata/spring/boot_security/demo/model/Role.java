@@ -19,7 +19,7 @@ public class Role implements GrantedAuthority {
 
 
     @ManyToMany(mappedBy = "roles")
-    List<User> users;
+    Set<User> users;
 
     public Role(){}
 
@@ -35,11 +35,11 @@ public class Role implements GrantedAuthority {
         this.id = id;
     }
 
-    public List<User> getUsers() {
+    public Set<User> getUsers() {
         return users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers(Set<User> users) {
         this.users = users;
     }
 

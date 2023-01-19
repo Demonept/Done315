@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
+import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.SecurityUserService;
 
 import java.util.ArrayList;
@@ -28,13 +29,13 @@ public class AdminController {
     PasswordEncoder bCryptPasswordEncoder;
 
     private SecurityUserService userService;
-    private final RoleRepository roleRepository;
+    private RoleService roleService;
 
     @Autowired
     public AdminController(SecurityUserService userService,
-                           RoleRepository roleRepository) {
+                           RoleService roleService) {
         this.userService = userService;
-        this.roleRepository = roleRepository;
+        this.roleService = roleService;
     }
 
     @GetMapping("/")
@@ -47,7 +48,7 @@ public class AdminController {
     @GetMapping("/adduser")
     public String getAddUserPage(ModelMap model) {
         model.addAttribute("user",new User());
-        model.addAttribute("roles", userService.getAllRoles());
+        model.addAttribute("roles", roleService.getAllRoles());
         return "adduser";
     }
 
@@ -59,7 +60,7 @@ public class AdminController {
 
     @PatchMapping("/update/{id}")
     public String updateUser(@ModelAttribute("user") User user) {
-//        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.updateUser(user);
         return "redirect:/admin/";
     }
@@ -67,7 +68,7 @@ public class AdminController {
     @GetMapping("/user/{id}")
     public String getUserPage(@PathVariable Long id, ModelMap model){
         User user = userService.getUser(id);
-        model.addAttribute("roles", userService.getAllRoles());
+        model.addAttribute("roles", roleService.getAllRoles());
         model.addAttribute("user", user);
         return "edituser";
     }

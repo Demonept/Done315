@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.kata.spring.boot_security.demo.model.Role;
@@ -18,19 +19,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class SecurityUserService implements UserDetailsService {
+public class SecurityUserService implements UserDetailsService,SecurityUser {
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    @Autowired
     UserRepository userRepository;
-
-    @Autowired
-    RoleRepository roleRepository;
-    @Autowired
     PasswordEncoder bCryptPasswordEncoder;
-
+    @Autowired
+    public SecurityUserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder){
+        this.userRepository = userRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
@@ -47,17 +44,8 @@ public class SecurityUserService implements UserDetailsService {
         return userFromDb.orElse(new User());
     }
 
-
     public List<User> getAllUsers() {
         return userRepository.findAll();
-    }
-
-    public List<Role> getAllRoles(){
-        return roleRepository.findAll();
-    }
-
-    public Role getRoleByName(String name){
-       return roleRepository.getRoleByName(name);
     }
 
     public boolean saveUser(User user) {
@@ -86,5 +74,6 @@ public class SecurityUserService implements UserDetailsService {
 
     public User getUser(long id) {
         return userRepository.getById(id);
+
     }
 }

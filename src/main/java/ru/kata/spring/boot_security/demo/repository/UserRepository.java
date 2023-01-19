@@ -16,7 +16,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u from User u join fetch u.roles where u.username = :username")
     User findByUsername(String username);
 
-//    @Modifying
-//    @Query("update User u set u.username = ?1, u.lastName =?2, u.email=?3 where u.id = ?4")
-//    void updateUser(String username, String lastname, String email, Long userId, List<Role> roles);
 }

@@ -11,6 +11,8 @@ import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 @Configuration
 public class DataLoader {
@@ -26,10 +28,10 @@ public class DataLoader {
             roleRepository.save(roleAdmin);
             roleRepository.save(roleUser);
 
-            ArrayList adminRoleArray = new ArrayList<>();
+            Set adminRoleArray = new HashSet<>();
             adminRoleArray.add(roleAdmin);
             adminRoleArray.add(roleUser);
-            ArrayList userRoleArray = new ArrayList<>();
+            Set userRoleArray = new HashSet<>();
             userRoleArray.add(roleUser);
 
             userRepository.save(new User("Admin", "Boss", "Just email@",
