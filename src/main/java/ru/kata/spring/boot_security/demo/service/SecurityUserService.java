@@ -18,13 +18,14 @@ public class SecurityUserService implements UserDetailsService,SecurityUser {
 
     UserRepository userRepository;
     PasswordEncoder bCryptPasswordEncoder;
+
     @Autowired
     public SecurityUserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder){
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public User loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
 
         if (user == null) {

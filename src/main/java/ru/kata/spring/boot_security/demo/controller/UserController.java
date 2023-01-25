@@ -20,14 +20,10 @@ public class UserController {
     private UserRepository userRepository;
     private SecurityUserService userService;
     @Autowired
-    public UserController(SecurityUserService userService){
+    public UserController(SecurityUserService userService, UserRepository userRepository){
         this.userService = userService;
-    }
-    @Autowired
-    public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
     @GetMapping("/info")
     public String getUserPage(Principal principal, ModelMap model){
         User user = userRepository.findByUsername(principal.getName());
