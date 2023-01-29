@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.RestController;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.service.RoleService;
+import ru.kata.spring.boot_security.demo.service.SecurityUser;
 import ru.kata.spring.boot_security.demo.service.SecurityUserService;
 
 import java.security.Principal;
@@ -18,17 +20,18 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminController {
 
-    @Autowired
+
     PasswordEncoder bCryptPasswordEncoder;
 
-    private SecurityUserService userService;
+    private SecurityUser userService;
     private RoleService roleService;
 
     @Autowired
-    public AdminController(SecurityUserService userService,
-                           RoleService roleService) {
+    public AdminController(SecurityUser userService,
+                           RoleService roleService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.roleService = roleService;
+        this.bCryptPasswordEncoder = passwordEncoder;
     }
 
     @GetMapping("/")
@@ -39,12 +42,6 @@ public class AdminController {
         model.addAttribute("roles", roleService.getAllRoles());
         return "users";
     }
-//    @GetMapping("/info")
-//    public String getUserPage(Principal principal, ModelMap model){
-//        User user = userService.loadUserByUsername(principal.getName());
-//        model.addAttribute("user", user);
-//        return "userinfo";
-//    }
 
     @GetMapping("/adduser")
     public String getAddUserPage(ModelMap model) {

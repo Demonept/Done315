@@ -13,4 +13,5 @@ public interface SecurityUser {
     public boolean deleteUser(Long userId);
     public void updateUser(User user);
     public User getUser(long id);
+    public User getAuthUser();
 }
