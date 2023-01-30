@@ -61,8 +61,7 @@
 <body>
 <div class="container-fluid">
     <div class="header">
-        <div class="header-left">
-            <h5 th:text="${user.getUsername()} + ' with roles :' + ${user.getStringRoles()}"></h5>
+        <div class="header-left" id="header-left">
         </div>
         <div class="header-right">
             <form name="logoutForm" th:action="@{/logout}" method="post">
@@ -98,14 +97,7 @@
                                 <th scope="col">Role</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr>
-                                <td th:text="${user.getId()}"></td>
-                                <td th:text="${user.getUsername()}"></td>
-                                <td th:text="${user.getLastName()}"></td>
-                                <td th:text="${user.getEmail()}"></td>
-                                <td th:text="${user.getStringRoles()}"></td>
-                            </tr>
+                            <tbody id="authUserInfo">
                             </tbody>
                         </table>
                     </div>
@@ -115,7 +107,7 @@
     </div>
 </div>
 </div>
+<script src="/user.js"></script>
 
-<script src="/templates/app.js"></script>
 </body>
 </html>

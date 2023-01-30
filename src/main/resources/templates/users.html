@@ -70,7 +70,7 @@
 
     </style>
 </head>
-<body>
+<body id="body">
 <div class="container-fluid">
     <div class="header">
         <div class="header-left" id="header-left">
@@ -127,30 +127,10 @@
                                 </tr>
                                 </thead>
                                 <tbody id="users-body">
-                                <th:block th:each="user : ${users}">
-                                    <tr>
-                                        <td th:text="${user.getId()}"></td>
-                                        <td th:text="${user.getUsername()}"></td>
-                                        <td th:text="${user.getLastName()}"></td>
-                                        <td th:text="${user.getEmail()}"></td>
-                                        <td th:text="${user.getStringRoles()}">
-                                        <td>
-                                            <button type="button" class="btn btn-info" data-bs-toggle="modal"
-                                                    data-bs-target="#modalEdit"
-                                                    th:data-bs-target="${'#modalEdit'+user.id}">Edit
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#modalDelete"
-                                                    th:data-bs-target="${'#modalDelete'+user.id}">Delete
-                                            </button>
-                                        </td>
-                                        <div class="modal fade" th:id="${'modalEdit'+user.id}">
+                                        <div class="modal fade" id="modalEdit">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
-                                                    <form id="formEdit" th:method="PUT"
-                                                          th:action="@{/admin/{id}(id=${user.Id})}" th:object="${user}">
+                                                    <form id="formEditUser" method="PUT">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">Edit user</h5>
                                                             <button type="button" class="btn-close"
@@ -162,51 +142,51 @@
                                                                     <p>
                                                                         <label for="idEditUser">
                                                                             <strong>ID</strong>
-                                                                            <input class="form-control" th:type="number"
-                                                                                   th:name="id" id="idEditUser"
-                                                                                   th:value="${user.Id}" disabled>
+                                                                            <input class="form-control" type="number"
+                                                                                   name="id" id="idEditUser"
+                                                                                   value="" disabled>
                                                                         </label>
                                                                     </p>
                                                                     <p>
                                                                         <label for="editUserFirstName">
                                                                             <strong>First name</strong>
-                                                                            <input class="form-control" th:type="text"
-                                                                                   th:name="username"
+                                                                            <input class="form-control" type="text"
+                                                                                   name="username"
                                                                                    id="editUserFirstName"
                                                                                    placeholder="First name"
-                                                                                   th:value="${user.username}" required>
+                                                                                   value="" required>
                                                                         </label>
                                                                     </p>
                                                                     <p>
                                                                         <label for="editUserLastName">
                                                                             <strong>Last name</strong>
-                                                                            <input class="form-control" th:type="text"
-                                                                                   th:name="lastName"
+                                                                            <input class="form-control" type="text"
+                                                                                   name="lastName"
                                                                                    id="editUserLastName"
                                                                                    placeholder="Last name"
-                                                                                   th:value="${user.lastName}" required>
+                                                                                   value="" required>
                                                                         </label>
                                                                     </p>
 
                                                                     <p>
                                                                         <label for="editUserEmail">
                                                                             <strong>Email</strong>
-                                                                            <input class="form-control" th:type="email"
-                                                                                   th:name="email"
+                                                                            <input class="form-control" type="email"
+                                                                                   name="email"
                                                                                    id="editUserEmail"
                                                                                    placeholder="Email"
-                                                                                   th:value="${user.email}" required>
+                                                                                   value="" required>
                                                                         </label>
                                                                     </p>
                                                                     <p>
                                                                         <label for="editUserPassword">
                                                                             <strong>Password</strong>
                                                                             <input class="form-control"
-                                                                                   th:type="password"
-                                                                                   th:name="password"
+                                                                                   type="password"
+                                                                                   name="password"
                                                                                    id="editUserPassword"
                                                                                    placeholder="Password"
-                                                                                   th:value="${user.password}" required>
+                                                                                   value="" required>
                                                                         </label>
                                                                     </p>
                                                                     <label class="container-fluid col-6"
@@ -215,10 +195,10 @@
                                                                         <select id="editUserRoles" class="form-select"
                                                                                 name="roles"
                                                                                 multiple size="2">
-                                                                            <option th:each="role: ${roles}"
-                                                                                    th:value="${role.getId()}">
-                                                                                <th:block th:text="${role.getName()}">
-                                                                                </th:block>
+                                                                            <option value="1" id="1editrole" data-name="ROLE_ADMIN" data-authority="ROLE_ADMIN">ROLE_ADMIN</option>
+                                                                            <option value="2" id="2editrole" data-name="ROLE_USER" data-authority="ROLE_USER">ROLE_USER</option>
+                                                                                <block text="">
+                                                                                </block>
                                                                             </option>
                                                                         </select>
                                                                     </label>
@@ -237,13 +217,12 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="modal" th:id="${'modalDelete'+user.Id}" tabindex="-1"
+                                        <div class="modal" id="modalDelete" tabindex="-1"
                                              aria-labelledby="edit"
                                              aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
-                                                    <form id="formDelete" th:method="DELETE"
-                                                          th:action="@{/admin/{id}(id=${user.Id})}" th:object="${user}">
+                                                    <form id="formDeleteUser" method="DELETE">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">Delete user</h5>
                                                             <button type="button" class="btn-close"
@@ -255,45 +234,45 @@
                                                                     <p>
                                                                         <label for="idDeleteUser">
                                                                             <strong>ID</strong>
-                                                                            <input class="form-control" type="number"
-                                                                                   name="id" id="idDeleteUser" disabled
-                                                                                   th:type="number"
-                                                                                   th:name="id"
-                                                                                   th:value="${user.getId}">
+                                                                            <input class="form-control"
+                                                                                   name="id" id="idDeleteUser"
+                                                                                   disabled
+                                                                                   type = "text"
+                                                                                   value="">
                                                                         </label>
                                                                     </p>
                                                                     <p>
                                                                         <label for="deleteUserFirstName">
                                                                             <strong>First name</strong>
-                                                                            <input class="form-control" type="text"
-                                                                                   name="firstName"
-                                                                                   id="deleteUserFirstName" disabled
-                                                                                   th:type="text"
-                                                                                   th:name="name"
-                                                                                   th:value="${user.username}">
+                                                                            <input class="form-control"
+                                                                                   name="username"
+                                                                                   id="deleteUserFirstName"
+                                                                                   disabled
+                                                                                   type="text"
+                                                                                   value="">
                                                                         </label>
                                                                     </p>
                                                                     <p>
                                                                         <label for="deleteUserLastName">
                                                                             <strong>Last name</strong>
-                                                                            <input class="form-control" type="text"
-                                                                                   name="lastName"
-                                                                                   id="deleteUserLastName" disabled
-                                                                                   th:type="text"
-                                                                                   th:name="last_name"
-                                                                                   th:value="${user.lastName}">
+                                                                            <input class="form-control"
+                                                                                   name="lastname"
+                                                                                   id="deleteUserLastName"
+                                                                                   disabled
+                                                                                   type="text"
+                                                                                   value="">
                                                                         </label>
                                                                     </p>
 
                                                                     <p>
                                                                         <label for="deleteUserEmail">
                                                                             <strong>Email</strong>
-                                                                            <input class="form-control" type="email"
-                                                                                   name="Email"
-                                                                                   id="deleteUserEmail" disabled
-                                                                                   th:type="email"
-                                                                                   th:name="username"
-                                                                                   th:value="${user.email}">
+                                                                            <input class="form-control"
+                                                                                   name="email"
+                                                                                   id="deleteUserEmail"
+                                                                                   disabled
+                                                                                   type="email"
+                                                                                   value="">
                                                                         </label>
                                                                     </p>
                                                                     <label class="container-fluid col-6"
@@ -302,10 +281,8 @@
                                                                         <select id="deleteUserRoles" class="form-select"
                                                                                 name="roles"
                                                                                 multiple size="2" disabled>
-                                                                            <option th:each="role: ${user.roles}">
-                                                                                <th:block th:text="${role.name}">
-                                                                                </th:block>
-                                                                            </option>
+                                                                            <option value="1" id="1deleterole" data-name="ROLE_ADMIN" data-authority="ROLE_ADMIN">ROLE_ADMIN</option>
+                                                                            <option value="2" id="2deleterole" data-name="ROLE_USER" data-authority="ROLE_USER">ROLE_USER</option>
                                                                         </select>
                                                                     </label>
                                                                 </div>
@@ -324,8 +301,6 @@
                                             </div>
                                         </div>
                                     </tr>
-                                </th:block>
-
                                 </tbody>
                             </table>
                         </div>
@@ -334,7 +309,7 @@
                         <div class="name">
                             <h2>Create new user</h2>
                         </div>
-                        <form id="formNewUser" name="formNewUser" th:align="center">
+                        <form id="formNewUser" name="formNewUser" align="center">
                             <p>
                                 <label class="container-fluid" for="newusername">
                                     <strong>First name</strong>
@@ -369,14 +344,8 @@
                                 <strong>Role</strong>
                                 <select id="newroles" class="form-select" name="roles"
                                         multiple size="2">
-                                    <option th:each="role: ${roles}"
-                                            th:value="${role.id}"
-                                            th:id="${role.id}"
-                                            th:data-name="${role.getName()}"
-                                            th:data-authority="${role.getAuthority()}">
-                                        <th:block th:text="${role.getName()}">
-                                        </th:block>
-                                    </option>
+                                    <option value="1" id="1" data-name="ROLE_ADMIN" data-authority="ROLE_ADMIN">ROLE_ADMIN</option>
+                                    <option value="2" id="2" data-name="ROLE_USER" data-authority="ROLE_USER">ROLE_USER</option>
                                 </select>
                             </label>
                             <button type="submit" id="newUserButton" class="btn btn-success">Add new user
@@ -412,228 +381,9 @@
         </div>
     </div>
 </div>
-<script>
-    let userTableLink = document.getElementById("nav-home-tab");
-    let formNewuser = document.getElementById("formNewUser");
-    let role = document.getElementById("newroles");
-    let xhr = new XMLHttpRequest();
-    let newUserBtn = document.getElementById("newUserButton")
-    let userNavLink = document.getElementById('user-nav-link')
-    let authUserInfo = document.getElementById('authUserInfo')
-    let headerLeft = document.getElementById('header-left')
-
-    let promise1 = new Promise(function (resolve, reject) {
-        fetch("http://localhost:8080/rest/users/authentication")
-            .then((response) => response.json())
-            .then((json) => {
-                if (json) {
-                    let data = json
-                    resolve(data, console.log('data prishla'))
-                } else {
-                    reject(console.log('data ne prishla'))
-                }
-            })
-    })
-    promise1.then((user)=>{
-        let userName = document.createElement('h5')
-        userName.textContent = user.username + " with roles: " + user.stringRoles
-        headerLeft.appendChild(userName);
-    })
-
-    userNavLink.addEventListener('click', function () {
-
-            promise1.then((user) => {
-                    authUserInfo.firstChild.remove()
-                    let userInfo = document.createElement('tr')
-                    let userid = document.createElement('td')
-                    let username = document.createElement('td')
-                    let userlast = document.createElement('td')
-                    let useremail = document.createElement('td')
-                    let userroles = document.createElement('td')
-                    userid.textContent = user.id
-                    username.textContent = user.username
-                    userlast.textContent = user.lastName
-                    useremail.textContent = user.email
-                    userroles.textContent = user.stringRoles
-                    userInfo.appendChild(userid)
-                    userInfo.appendChild(username)
-                    userInfo.appendChild(userlast)
-                    userInfo.appendChild(useremail)
-                    userInfo.appendChild(userroles)
-
-                    authUserInfo.appendChild(userInfo)
-                })
-
-            })
-
-
-    newUserBtn.addEventListener('click',async function (event) {
-        event.preventDefault()
-        let roles = []
-        let selected = Array.from(role.options)
-            .filter(option => option.selected)
-            .map(option => option.value);
-        for (let i = 0; i < selected.length; i++) {
-            if (selected[i] === "1") {
-                roles.push({
-                    id: "1",
-                    name: "ROLE_ADMIN",
-                    authority: "ROLE_ADMIN"
-                })
-            }
-            if (selected[i] === "2") {
-                roles.push({
-                    id: "2",
-                    name: "ROLE_USER",
-                    authority: "ROLE_USER"
-                })
-            }
-        }
-        let json = {
-            username: formNewuser.username.value,
-            lastName: formNewuser.lastname.value,
-            email: formNewuser.email.value,
-            password: formNewuser.password.value,
-            roles: roles
-        }
-        fetch("http://localhost:8080/rest/users",
-            {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                    // 'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: JSON.stringify(json)
-            }).then(
-            response => response.text().then(html => console.log(html))
-        )
-        console.log(formNewuser.username.value, formNewuser.lastname.value,
-            formNewuser.email.value,
-            formNewuser.password.value,
-            formNewuser.roles)
-        console.log(json)
-        console.log(roles)
-        console.log(JSON.stringify(json))
-    })
-    let table = async function () {
-        let promise = new Promise(function (resolve, reject) {
-                fetch("http://localhost:8080/rest/users/")
-                    .then((response) => response.json())
-                    .then((json) => {
-                            if (json) {
-                                let data = json
-                                resolve(data, console.log('data prishla'))
-                            } else {
-                                reject(console.log('data ne prishla'))
-                            }
-                        }
-                    )
-            }
-        )
-        if (userTableLink.className === "nav-link active") {
-            promise.then((user) => {
-                user.forEach(user => {
-                    let usersBody = document.getElementById('users-body')
-                    let userInfo = document.createElement('tr')
-                    let userid = document.createElement('td')
-                    let username = document.createElement('td')
-                    let userlast = document.createElement('td')
-                    let useremail = document.createElement('td')
-                    let userroles = document.createElement('td')
-                    let userbtnI = document.createElement('td')
-                    let userbtnD = document.createElement('td')
-                    let buttonInfo = document.createElement('button')
-                    buttonInfo.className = "btn btn-info"
-                    buttonInfo.setAttribute("data-bs-toggle", "modal")
-                    buttonInfo.setAttribute("data-bs-target", "#modalEdit" + user.id)
-                    buttonInfo.setAttribute("id", "idEditUser")
-                    buttonInfo.setAttribute("value", user.id)
-                    buttonInfo.textContent = "Edit"
-                    userbtnI.appendChild(buttonInfo)
-                    let buttonDelite = document.createElement('button')
-                    buttonDelite.className = "btn btn-danger"
-                    buttonDelite.setAttribute("data-bs-toggle", "modal")
-                    buttonDelite.setAttribute("data-bs-target", "#modalDelete" + user.id)
-                    buttonDelite.setAttribute("id", "idDeleteUser")
-                    buttonDelite.setAttribute("value", user.id)
-                    buttonDelite.textContent = "Delete"
-                    userbtnD.appendChild(buttonDelite)
-                    userid.textContent = user.id
-                    username.textContent = user.username
-                    userlast.textContent = user.lastName
-                    useremail.textContent = user.email
-                    userroles.textContent = user.stringRoles
-                    userInfo.appendChild(userid)
-                    userInfo.appendChild(username)
-                    userInfo.appendChild(userlast)
-                    userInfo.appendChild(useremail)
-                    userInfo.appendChild(userroles)
-                    userInfo.appendChild(userbtnI)
-                    userInfo.appendChild(userbtnD)
-
-                    usersBody.appendChild(userInfo)
-                })
-            })
-        }
-    }
-    if (userTableLink.className === "nav-link active") {
-        document.getElementById("users-body").remove()
-        let tableus = document.getElementById('users_table')
-        let newTable = document.createElement('tbody')
-        tableus.appendChild(newTable)
-        newTable.setAttribute("id", "users-body")
-        table()
-    }
-    userTableLink.addEventListener('click', function () {
-        document.getElementById("users-body").remove()
-        let tableus = document.getElementById('users_table')
-        let newTable = document.createElement('tbody')
-        tableus.appendChild(newTable)
-        newTable.setAttribute("id", "users-body")
-        table()
-        console.log('была вызвана таблица юзеров')
-    })
-
-    let userEditBut = document.getElementById('idEditUser')
-    userEditBut.addEventListener('click', async function(){
-        let promise = new Promise(function (resolve, reject) {
-            fetch("http://localhost:8080/rest/users/" + userEditBut.value, )
-                .then((response) => response.json())
-                .then((json) => {
-                        if (json) {
-                            let data = json
-                            resolve(data, console.log('data prishla'))
-                        } else {
-                            reject(console.log('data ne prishla'))
-                        }
-                    }
-                )
-        })
-        promise.then((user)=> {
-
-        })
-    })
-    let userDeleteBut = document.getElementById('idDeleteUser')
-    userEditBut.addEventListener('click', async function(){
-        let promise = new Promise(function (resolve, reject) {
-            fetch("http://localhost:8080/rest/users/" + userDeleteBut.value,)
-                .then((response) => response.json())
-                .then((json) => {
-                        if (json) {
-                            let data = json
-                            resolve(data, console.log('data prishla'))
-                        } else {
-                            reject(console.log('data ne prishla'))
-                        }
-                    }
-                )
-        })
-        })
-
-</script>
+<script src="/app.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>
-
 </body>
 </html>
